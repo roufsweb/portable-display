@@ -15,6 +15,12 @@ portable display/
 │   │   ├── page_10_img_1_40.png      # Official eDP 30-Pin connector pinout table
 │   │   ├── page_11_img_1_44.png      # Official eDP 40-Pin connector pinout table
 │   │   └── page_14_img_1_54.jpeg     # Keypad & IR remote schematic diagram
+│   ├── User_Session_Screenshots/     # Documented session photos & RTD Customer Tool setup
+│   │   ├── 01_user_pcb800869_board.png           # User's PCB800869 board (89.5x47.5mm)
+│   │   ├── 02_rtd_tool_newctrlreg_pageff.png     # RTD Customer Tool NewCtrlReg Page FF
+│   │   ├── 03_rtd_tool_gfxi2c_nvidia_setup.png   # Nvidia GPU GFX I2C configuration dialog
+│   │   ├── 04_rtd_tool_page_select_menu.png      # Scaler register Page Select dropdown
+│   │   └── 05_rtd_tool_scaler_dropdown_list.png  # Scaler IC selection dropdown
 │   ├── PCB800869_Images/             # Official high-resolution photos downloaded from manufacturer
 │   │   ├── big_2023126133141.jpg     # PCB800869 30-Pin eDP board top view
 │   │   └── big_2023126133825.jpg     # PCB800869 40-Pin eDP board top view
