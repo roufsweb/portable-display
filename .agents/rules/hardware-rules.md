@@ -17,3 +17,4 @@
 
 ## 3. Communication Over I2C
 * For GFX I2C through GPUs, limit DDC clock speed to **50 kHz** or **100 kHz** to prevent packet loss over long or unshielded HDMI cables.
+* **Multi-Monitor GFX I2C**: In systems with multiple displays, `Auto Detect Realtek Monitor` will query the host's primary monitor first (`DISPLAY1`) and fail with `Enter Isp Mode fail! ErrorCode:0xA`. Always set `Multi Realtek Monitor Select` -> `User Select` and choose `DISPLAY2` (Output ID: 256 or whichever corresponds to the portable monitor).
