@@ -58761,3 +58761,57 @@
 [2026-09-25, 04:24:46] Write isp boot flag, bank: 0x0, addr: 0x7000, data: 0x55, 0xAA, 0x0F, 0x38, 0x7E, 0xC1, 0xD2, 0x45, 0x69, 0xAB, 0x01, 0x7B, 0x00, 0x00, 0x38, 0x20, 
 
 [2026-09-25, 04:24:46] ------DoIsp End------
+[2026-09-25, 04:48:27] ========================strat=========================
+
+[2026-09-25, 04:48:27] enumIspFunction: 0, enumIspType: 0, Comm Id: 5
+
+[2026-09-25, 04:49:10] ------DoIsp Begin------
+[2026-09-25, 04:49:14] Enter isp mode: 0, slave addr: 0x94.
+
+[2026-09-25, 04:49:14] Read scaler type: 51.
+
+[2026-09-25, 04:49:14] Auto Set Flash Partition.
+
+[2026-09-25, 04:49:14] Set Flash Partition, addr: 0x7000.
+
+[2026-09-25, 04:49:14] Get Flash Type: Default.
+
+[2026-09-25, 04:49:14] Clear isp boot flag in bank 0 erase.Error Code: 0x0.
+
+[2026-09-25, 04:49:15] Bank 8 erase. Error code: 0x0
+
+[2026-09-25, 04:49:18] Write to bank 8. Error code: 0x0
+
+[2026-09-25, 04:49:19] Bank 7 erase. Error code: 0x0
+
+[2026-09-25, 04:49:32] Write to bank 7. Error code: 0x0
+
+[2026-09-25, 04:49:33] Bank 6 erase. Error code: 0x0
+
+[2026-09-25, 04:49:47] Write to bank 6. Error code: 0x0
+
+[2026-09-25, 04:49:47] Bank 5 erase. Error code: 0x0
+
+[2026-09-25, 04:50:01] Write to bank 5. Error code: 0x0
+
+[2026-09-25, 04:50:01] Bank 4 erase. Error code: 0x0
+
+[2026-09-25, 04:50:14] Write to bank 4. Error code: 0x0
+
+[2026-09-25, 04:50:15] Bank 3 erase. Error code: 0x0
+
+[2026-09-25, 04:50:28] Write to bank 3. Error code: 0x0
+
+[2026-09-25, 04:50:29] Bank 2 erase. Error code: 0x0
+
+[2026-09-25, 04:50:43] Write to bank 2. Error code: 0x0
+
+[2026-09-25, 04:50:44] Bank 1 erase. Error code: 0x0
+
+[2026-09-25, 04:50:58] Write to bank 1. Error code: 0x0
+
+[2026-09-25, 04:51:12] Write to bank 0. Error code: 0x0
+
+[2026-09-25, 04:51:12] Write isp boot flag, bank: 0x0, addr: 0x7000, data: 0x55, 0xAA, 0x0F, 0x38, 0x7E, 0xC1, 0xD2, 0x45, 0x69, 0xAB, 0x01, 0x7B, 0x00, 0x00, 0x38, 0x20, 
+
+[2026-09-25, 04:51:12] ------DoIsp End------
