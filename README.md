@@ -24,7 +24,9 @@ portable display/
 │   │   ├── 06_rtd_tool_isp_tab_overview.png      # RTD Tool ISP flashing tab and controls
 │   │   ├── 07_rtd_tool_flash_error_0xa.png       # ErrorCode:0xA when auto-detecting multi-monitor
 │   │   ├── 08_rtd_tool_gfxi2c_adjust_user_select.png # Solution: Setting Multi RT Monitor to User Select
-│   │   └── 09_rtd_tool_gfxi2c_select_display2_output256.png # Selecting \\.\DISPLAY2 Output ID:256
+│   │   ├── 09_rtd_tool_gfxi2c_select_display2_output256.png # Selecting \\.\DISPLAY2 Output ID:256
+│   │   ├── 10_rtd_tool_flash_mismatch_error_0xd03.png # ErrorCode:0xD03 on Auto flash detect (whitelist mismatch)
+│   │   └── 11_rtd_tool_read_total_progress_ok.png # Successful Read Total (8 Banks / 512KB) completed with OK!
 │   ├── PCB800869_Images/             # Official high-resolution photos downloaded from manufacturer
 │   │   ├── big_2023126133141.jpg     # PCB800869 30-Pin eDP board top view
 │   │   └── big_2023126133825.jpg     # PCB800869 40-Pin eDP board top view
@@ -182,35 +184,35 @@ On systems equipped with dedicated GPUs (e.g. NVIDIA GeForce), RTD Customer Tool
 
 ---
 
-## 💾 Factory Firmware Backup & Binary Analysis
+## 💾 Factory Firmware Backup & Deep Binary Analysis
 
-### 1. Current Working Board Backup:
-- **Root Backup**: [backup-from-current-working-display.bin](file:///e:/rouf/hardware-project/portable%20display/backup-from-current-working-display.bin)
-- **Archive Copy**: [my_pcb800869_factory_backup_bank0.bin](file:///e:/rouf/hardware-project/portable%20display/03_Firmware/my_pcb800869_factory_backup_bank0.bin)
-- **Status**: First 4KB (0x0000 - 0x0FFF) contains verified 8051 machine code (interrupt vectors and reset handlers).
+### 1. Complete Physical Board Backup (512 KB / 8 Banks):
+- **Root Backup**: [full-backup.bin](file:///e:/rouf/hardware-project/portable%20display/full-backup.bin) (524,288 bytes)
+- **Archive Copy**: [PCB800869_FACTORY_FULL_BACKUP_512KB.bin](file:///e:/rouf/hardware-project/portable%20display/03_Firmware/PCB800869_FACTORY_FULL_BACKUP_512KB.bin)
+- **Status**: 100% complete SPI flash read across all 8 memory banks (Bank 0 – Bank 7), verified with `OK` status.
 
-### 2. Firmware Matching & Family Identification:
-Comparing the dumped 4KB code against all 74 firmware binaries in the repository reveals:
-| Firmware File | 4KB Similarity | First 512B Match | Match Status / Interpretation |
-| :--- | :---: | :---: | :--- |
-| **`PCB800869-EDP 30PIN 1920X1080-NV156FHM-N22.bin`** | **78.1%** | **97.7%** (12 diffs) | **PRIMARY FAMILY MATCH**: Exact SDK branch & layout |
-| **`PCB800869-EDP 30PIN 1920X1080-M156OMN237-M870.bin`** | **78.1%** | **97.7%** (12 diffs) | **100% IDENTICAL** to NV156FHM-N22 binary |
-| **`PCB800869-EDP1920X1080-SL156BFHM40D.bin`** | **78.1%** | **97.7%** (12 diffs) | **99.99% MATCH** (only 10 byte timing differences) |
-| **`PCB800869-EDP30PIN-2LAN-1920X1080.bin`** (Generic) | **72.1%** | **97.5%** (13 diffs) | Alternate codebase branch (~31.5% whole-binary similarity) |
+### 2. Extracted Hardware Identification & EDIDs:
+- **Type-C Port EDID** (Offset `0x25792` in Bank 2):
+  - Model Name: `RTK FHD`
+  - Manufacturer Code: `RTK` (Realtek), Product Code: `0xA1BF`
+  - Serial Number: `L56051794302`
+  - Native Resolution: **1920 × 1080 @ 59.98 Hz** (Pixel Clock: 138.60 MHz, Frame: 2080×1111)
+- **HDMI Port EDID** (Offset `0x25892` in Bank 2):
+  - Model Name: `RTK FHD`
+  - Manufacturer Code: `RTK` (Realtek), Product Code: `0x2A3B`
+  - Serial Number: `J257M96B00FL`
+  - Native Resolution: **1920 × 1080 @ 60.00 Hz** (Pixel Clock: 148.50 MHz, Frame: 2200×1125 CEA-861)
 
-> [!IMPORTANT]
-> The factory board runs the **NV156FHM-N22 / M156OMN237-M870 / SL156BFHM40D** firmware branch!
-> In this firmware branch, the OSD brightness lookup tables and presets are located in Bank 7 (`0x7312B` - `0x739A4`).
-
-### 3. How to Perform a 100% Full Chip Backup (All 576 KB):
-To dump all 9 banks (full 576 KB / 589,824 bytes including panel timings, EDID tables, and OSD fonts):
-1. In RTD Customer Tool, navigate to the **`Flash`** tab (7th icon on the left sidebar).
-2. Under the **`Bank`** section on the right side:
-   - Click the **`[ Auto ]`** button next to `Total Bank:`. It queries SPI Flash chip ID via RDID (`0x9F`). If it does not set 9, select `9` (for 576 KB) or `8` (for 512 KB).
-3. Click **`[ Read Total ]`** (the button above `[ Read ]`).
-   - The tool will read Bank 0 through Bank 8 across the entire flash chip.
-4. Click **`[ Save Total ]`** (the button above `[ Save ]`).
-   - Save the file as `PCB800869_FULL_BACKUP_576KB.bin`.
+### 3. Root Cause of the OSD Brightness Bug:
+- **Analysis of Bank 2 PWM Engine (`0x2CFE8`)**:
+  - In `full-backup.bin`, the MCU loads registers `R7=#0x58` and `R6=#0x02` before calling the PWM scaling math routine `0x03B4`. This configures a PWM divisor of **`0x0258` (decimal 600)**.
+  - Standard laptop 30-pin FHD eDP panels (BOE NT156FHM, NV156FHM, AUO B156HAN) expect standard 0–100% duty cycle scaling.
+  - When the scaler divides duty cycles over 600 instead of 100, the OSD slider either barely changes brightness, jumps erratically at the very end of the range, or fails to dim smoothly!
+- **Proof in the Official Firmware**:
+  - In [PCB800869-EDP30PIN-NT156FHMN41-1920X1080.bin](file:///e:/rouf/hardware-project/portable%20display/03_Firmware/Board_Firmware_Rouf/PCB800869_eDP/PCB800869-EDP30PIN-NT156FHMN41-1920X1080.bin), the manufacturer specifically fixed this exact bug by:
+    1. Patching the PWM divisor at `0x2CFFC` from `0x0258` (600) to **`0x0064` (100)**!
+    2. Patching Bank 7 at `0x7FE9A` from `0x0258` (600) to **`0x0064` (100)**!
+    3. Tuning the default brightness preset at `0x7FE8C` from `0x32` (50) to `0x0A` (10)!
 
 ---
 
