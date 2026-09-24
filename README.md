@@ -20,7 +20,8 @@ portable display/
 │   │   ├── 02_rtd_tool_newctrlreg_pageff.png     # RTD Customer Tool NewCtrlReg Page FF
 │   │   ├── 03_rtd_tool_gfxi2c_nvidia_setup.png   # Nvidia GPU GFX I2C configuration dialog
 │   │   ├── 04_rtd_tool_page_select_menu.png      # Scaler register Page Select dropdown
-│   │   └── 05_rtd_tool_scaler_dropdown_list.png  # Scaler IC selection dropdown
+│   │   ├── 05_rtd_tool_scaler_dropdown_list.png  # Scaler IC selection dropdown
+│   │   └── 06_rtd_tool_isp_tab_overview.png      # RTD Tool ISP flashing tab and controls
 │   ├── PCB800869_Images/             # Official high-resolution photos downloaded from manufacturer
 │   │   ├── big_2023126133141.jpg     # PCB800869 30-Pin eDP board top view
 │   │   └── big_2023126133825.jpg     # PCB800869 40-Pin eDP board top view
