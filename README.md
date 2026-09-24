@@ -214,6 +214,16 @@ On systems equipped with dedicated GPUs (e.g. NVIDIA GeForce), RTD Customer Tool
     2. Patching Bank 7 at `0x7FE9A` from `0x0258` (600) to **`0x0064` (100)**!
     3. Tuning the default brightness preset at `0x7FE8C` from `0x32` (50) to `0x0A` (10)!
 
+### 4. Custom Patched Firmware Created:
+- **Patched Binary**: [PCB800869_BRIGHTNESS_FIXED.bin](file:///e:/rouf/hardware-project/portable%20display/PCB800869_BRIGHTNESS_FIXED.bin) (524,288 bytes)
+- **Archive Copy**: [03_Firmware/PCB800869_BRIGHTNESS_FIXED.bin](file:///e:/rouf/hardware-project/portable%20display/03_Firmware/PCB800869_BRIGHTNESS_FIXED.bin)
+- **Modifications**:
+  - `0x2CFEB` (Bank 2): `0x58` ➔ `0x64`
+  - `0x2CFED` (Bank 2): `0x02` ➔ `0x00` (PWM scaling divisor changed from 600 to 100)
+  - `0x7FE96` (Bank 7): `0x58` ➔ `0x64`
+  - `0x7FE98` (Bank 7): `0x02` ➔ `0x00` (OSD brightness range changed from 600 to 100)
+- **Integrity**: 100% of all other bytes (EDID, serial numbers, panel timings, audio settings) remain untouched.
+
 ---
 
 ## 📊 Complete Firmware Cross-Reference Matrix
